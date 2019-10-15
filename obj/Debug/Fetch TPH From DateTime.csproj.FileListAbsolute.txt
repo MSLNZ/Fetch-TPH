@@ -1,0 +1,10 @@
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch TPH From DateTime.csprojResolveAssemblyReference.cache
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch_TPH_From_DateTime.FetchTPHFromDateTime.resources
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch_TPH_From_DateTime.Properties.Resources.resources
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch TPH From DateTime.csproj.GenerateResource.Cache
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch TPH From DateTime.csproj.CoreCompileInputs.cache
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\bin\Debug\Fetch TPH From DateTime.exe.config
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\bin\Debug\Fetch TPH From DateTime.exe
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\bin\Debug\Fetch TPH From DateTime.pdb
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch TPH From DateTime.exe
+C:\Users\c.young\Documents\GitHub\Fetch TPH From DateTime\Fetch TPH From DateTime\obj\Debug\Fetch TPH From DateTime.pdb
