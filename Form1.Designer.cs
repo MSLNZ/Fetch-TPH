@@ -72,12 +72,14 @@
             this.OutputFileTextBox.Name = "OutputFileTextBox";
             this.OutputFileTextBox.Size = new System.Drawing.Size(214, 20);
             this.OutputFileTextBox.TabIndex = 3;
+            this.OutputFileTextBox.Text = "C:\\Users\\Public\\Documents\\";
             // 
             // TemperatureComboBox
             // 
             this.TemperatureComboBox.BackColor = System.Drawing.SystemColors.Window;
             this.TemperatureComboBox.FormattingEnabled = true;
             this.TemperatureComboBox.Items.AddRange(new object[] {
+            "None",
             "Hilger Lab",
             "Laser Lab",
             "Long Room ",
@@ -95,6 +97,7 @@
             this.PressureComboBox.BackColor = System.Drawing.SystemColors.Window;
             this.PressureComboBox.FormattingEnabled = true;
             this.PressureComboBox.Items.AddRange(new object[] {
+            "None",
             "Robertson Ground",
             "Tunnel"});
             this.PressureComboBox.Location = new System.Drawing.Point(233, 145);
@@ -109,6 +112,7 @@
             this.HumidityComboBox.BackColor = System.Drawing.SystemColors.Window;
             this.HumidityComboBox.FormattingEnabled = true;
             this.HumidityComboBox.Items.AddRange(new object[] {
+            "None",
             "Hilger Lab",
             "Laser Lab",
             "Long Room ",

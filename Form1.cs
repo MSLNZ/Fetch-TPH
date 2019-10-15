@@ -14,7 +14,7 @@ namespace Fetch_TPH_From_DateTime
     public partial class FetchTPHFromDateTime : Form
     {
         private string[] filelines;
-        private string outputfilepath;
+        private string outputfilepath = @"C:\Users\Public\Documents\";
         private string temperaturedir;
         private string pressuredir;
         private string humiditydir;
@@ -140,101 +140,98 @@ namespace Fetch_TPH_From_DateTime
         {
             //open a file for writing the date to.
             StreamWriter writer;
+            
             using (writer = File.CreateText(outputfilepath + @"\"+"tph.txt"))
             {
 
 
                 bool headingwritten = false;
+                int num_elements = 0;
+
+                if(filelines == null)
+                {
+                    MessageBox.Show("Choose a Text File with some DateTimes in it");
+                    return;
+                }
+
                 //inspect each datetime and find all files from the previously selected laboratory fields
                 foreach (string datetimestring in filelines)
                 {
 
-                    
+                    num_elements++;
                     DateTime date = Convert.ToDateTime(datetimestring);
                     int month = date.Month;
                     int year = date.Year;
                     string dir = temperaturedir;
-                    dir = dir + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
+                    if(TemperatureComboBox.Text != "None") dir = dir + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
 
                     string dir2 = pressuredir;
                     dir2 = dir2 + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
 
                     string dir3 = humiditydir;
                     dir3 = dir3 + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
-                    
-                    string[] temperaturefiles = Directory.GetFiles(dir, "*.txt",SearchOption.TopDirectoryOnly); ;
-                    string[] pressurefiles = Directory.GetFiles(dir2, "*.txt", SearchOption.TopDirectoryOnly);
-                    string[] humidityfiles = Directory.GetFiles(dir3, "*.txt", SearchOption.TopDirectoryOnly);
-                    for(int i = 0; i<temperaturefiles.Length;i++)
-                    {
-                         temperaturefiles[i] = Path.GetFileName(temperaturefiles[i]);
-                    }
-                    for (int i = 0; i < pressurefiles.Length; i++)
-                    {
-                         pressurefiles[i] = Path.GetFileName(pressurefiles[i]);
-                    }
-                    for (int i = 0; i < humidityfiles.Length; i++)
-                    {
-                         humidityfiles[i] = Path.GetFileName(humidityfiles[i]);
-                    }
 
-                    if (!headingwritten)
-                    {
-                        //write the first two element of the heading line
-                        writer.Write("Target DateTime ");
-                        
 
-                        
-                        foreach (string fname in temperaturefiles)
-                        {
-                            writer.Write(", " + fname.ToString()+ ", Date Found");
-                        }
-                        
-                        foreach (string fname in pressurefiles)
-                        {
-                            writer.Write(", " + fname.ToString()+ ", Date Found");
-                        }
-                        
-                        foreach (string fname in humidityfiles)
-                        {
-                            writer.Write(", " + fname.ToString() + ", Date Found");
-                        }
-                        writer.WriteLine();
-                        //heading finished
-                        headingwritten = true;
-                    }
+
+                    //write the first two element of the heading line if not already written
+                    if (!headingwritten) writer.Write("Target DateTime ");
+
+                    string[] temperaturefiles = null;
+                    FindTemperature(dir, headingwritten,ref writer,ref temperaturefiles);
+                    string[] pressurefiles = null;
+                    FindPressure(dir2, headingwritten, ref writer,ref pressurefiles);
+                    string[] humidityfiles = null;
+                    FindHumidity(dir3, headingwritten, ref writer,ref humidityfiles);
+
+                    if(!headingwritten) writer.WriteLine();//finish heading
+                    //heading finished
+                    headingwritten = true;
+
                     //write the target date
                     writer.Write(date.ToString());
 
-                    string[] allfiles = new string[temperaturefiles.Length + pressurefiles.Length + humidityfiles.Length];
-                    temperaturefiles.CopyTo(allfiles, 0);
-                    pressurefiles.CopyTo(allfiles, temperaturefiles.Length);
-                    humidityfiles.CopyTo(allfiles, pressurefiles.Length + temperaturefiles.Length);
+                    int temperaturelength = 0;
+                    if (temperaturefiles == null) temperaturelength = 0;
+                    else temperaturelength = temperaturefiles.Length;
+
+                    int pressurelength = 0;
+                    if (pressurefiles == null) pressurelength = 0;
+                    else pressurelength = pressurefiles.Length;
+
+                    int humiditylength = 0;
+                    if (humidityfiles == null) humiditylength = 0;
+                    else humiditylength = humidityfiles.Length;
+
+                    string[] allfiles = new string[temperaturelength + pressurelength + humiditylength];
+
+                    if(temperaturefiles!=null) temperaturefiles.CopyTo(allfiles, 0);
+                    if(pressurefiles!=null) pressurefiles.CopyTo(allfiles, temperaturelength);
+                    if(humidityfiles!=null) humidityfiles.CopyTo(allfiles, pressurelength + temperaturelength);
+                    if (allfiles == null) return; //no files are found
 
                     int fileindex = 0;
-                   
                     short filetype = 0;
                     //find the values to write for each file in the search directory
                     foreach (string fname in allfiles)
                     {
-                        StreamReader reader=null;
-                        if (fileindex < temperaturefiles.Length)
+                        StreamReader reader = null;
+                        if (fileindex < temperaturelength)
                         {
                             filetype = 0;
                             try
                             {
                                 reader = new StreamReader(dir + fname);
                             }
-                            catch(IOException)
+                            catch (IOException)
                             {
                                 MessageBox.Show("Temperature file in use");
                             }
                         }
-                        else if(fileindex>=temperaturefiles.Length && fileindex < (pressurefiles.Length+temperaturefiles.Length))
+                        else if (fileindex >= temperaturelength && fileindex < (pressurelength + temperaturelength))
                         {
                             filetype = 1;
                             try
-                            { 
+                            {
                                 reader = new StreamReader(dir2 + fname);
                             }
                             catch (IOException)
@@ -242,11 +239,11 @@ namespace Fetch_TPH_From_DateTime
                                 MessageBox.Show("pressure file in use!");
                                 break;
                             }
-                    }
+                        }
                         else
                         {
                             filetype = 2;
-                            reader = new StreamReader(dir3 + fname);
+                            
                             try
                             {
                                 reader = new StreamReader(dir3 + fname);
@@ -259,20 +256,20 @@ namespace Fetch_TPH_From_DateTime
                         }
 
                         bool first_reading = true;
-                        
+
                         DateTime previousdate = DateTime.Now;
                         string[] values = new string[1];
-                        string[] previousvalues=null;
+                        string[] previousvalues = null;
                         DateTime currentdate;
 
 
-                        while(!reader.EndOfStream)
+                        while (!reader.EndOfStream)
                         {
                             string line = reader.ReadLine();
 
                             bool a = !line.Equals("Automatically Generated File!");
                             bool b = !line.Equals("");
-                            if (a&&b)
+                            if (a && b)
                             {
                                 try
                                 {
@@ -286,18 +283,16 @@ namespace Fetch_TPH_From_DateTime
                                             break;
                                         }
                                         values[index] = line.Substring(0, comma_index);
-                                        Array.Resize(ref values, index+2);
+                                        Array.Resize(ref values, index + 2);
                                         //consume the part of the string we have already checked
                                         line = line.Remove(0, comma_index + 1);
                                         index++;
                                     }
 
-                                    
-
                                     //the datetime should always be the third element (zero-based) in the array for temperature files and the second element for pressure and humidity files.
                                     try
                                     {
-                                        if(filetype==0) currentdate = Convert.ToDateTime(values[2]);
+                                        if (filetype == 0) currentdate = Convert.ToDateTime(values[2]);
                                         else currentdate = Convert.ToDateTime(values[1]);
                                     }
                                     catch (IndexOutOfRangeException)
@@ -323,7 +318,7 @@ namespace Fetch_TPH_From_DateTime
                                         {
                                             //the reference date was inbetween the current date and the previous date.
 
-                                            
+
                                             if (span1 >= span2)
                                             {
                                                 //span 2 is closer
@@ -348,7 +343,7 @@ namespace Fetch_TPH_From_DateTime
                                             }
                                         }
                                         //this occurs when the target date is prior to all dates in the file
-                                        else if(first_comp < 0 && second_comp < 0)
+                                        else if (first_comp < 0 && second_comp < 0)
                                         {
 
                                             //span 2 is closer
@@ -388,10 +383,84 @@ namespace Fetch_TPH_From_DateTime
                         fileindex++;
                     }
                     writer.WriteLine();
-                }
+                    }
                 
             }
             writer.Close();
+        }
+        public void FindTemperature(string dir,bool headingwritten,ref StreamWriter writer,ref string[] temperaturefiles)
+        {
+           
+            try
+            {
+                temperaturefiles = Directory.GetFiles(dir, "*.txt", SearchOption.TopDirectoryOnly);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                if(!headingwritten) writer.Write(", Initial File Not Found!, Date Found");
+                return;
+            }
+            for (int i = 0; i < temperaturefiles.Length; i++)
+            {
+                temperaturefiles[i] = Path.GetFileName(temperaturefiles[i]);
+            }
+            if (!headingwritten)
+            {
+
+
+                foreach (string fname in temperaturefiles)
+                {
+                    writer.Write(", " + fname.ToString() + ", Date Found");
+                }
+            }
+        }
+        public void FindPressure(string dir2, bool headingwritten, ref StreamWriter writer,ref string[] pressurefiles)
+        {
+            
+            try
+            {
+                pressurefiles = Directory.GetFiles(dir2, "*.txt", SearchOption.TopDirectoryOnly);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                if (!headingwritten) writer.Write(", Initial File Not Found!, Date Found");
+                return;
+            }
+            for (int i = 0; i < pressurefiles.Length; i++)
+            {
+                pressurefiles[i] = Path.GetFileName(pressurefiles[i]);
+            }
+            if (!headingwritten)
+            {
+                foreach (string fname in pressurefiles)
+                {
+                    writer.Write(", " + fname.ToString() + ", Date Found");
+                }
+            }
+        }
+        public void FindHumidity(string dir3, bool headingwritten, ref StreamWriter writer, ref string[] humidityfiles)
+        {
+            
+            try
+            {
+                humidityfiles = Directory.GetFiles(dir3, "*.txt", SearchOption.TopDirectoryOnly);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                if (!headingwritten) writer.Write(", Initial File Not Found!, Date Found");
+                return;
+            }
+            for (int i = 0; i < humidityfiles.Length; i++)
+            {
+                humidityfiles[i] = Path.GetFileName(humidityfiles[i]);
+            }
+            if (!headingwritten)
+            {
+                foreach (string fname in humidityfiles)
+                {
+                    writer.Write(", " + fname.ToString() + ", Date Found");
+                }
+            }
         }
     }
 }
