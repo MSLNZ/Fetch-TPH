@@ -159,11 +159,14 @@ namespace Fetch_TPH_From_DateTime
                 {
 
                     num_elements++;
-                    DateTime date = Convert.ToDateTime(datetimestring);
+                    DateTime date;
+                    try { date = Convert.ToDateTime(datetimestring); }
+                    catch (System.FormatException) { return;  }
+
                     int month = date.Month;
                     int year = date.Year;
                     string dir = temperaturedir;
-                    if(TemperatureComboBox.Text != "None") dir = dir + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
+                    if (TemperatureComboBox.Text != "None") dir = dir + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
 
                     string dir2 = pressuredir;
                     dir2 = dir2 + @"\" + year.ToString() + @"\" + year.ToString() + "-" + month.ToString() + @"\";
@@ -177,13 +180,13 @@ namespace Fetch_TPH_From_DateTime
                     if (!headingwritten) writer.Write("Target DateTime ");
 
                     string[] temperaturefiles = null;
-                    FindTemperature(dir, headingwritten,ref writer,ref temperaturefiles);
+                    FindTemperature(dir, headingwritten, ref writer, ref temperaturefiles);
                     string[] pressurefiles = null;
-                    FindPressure(dir2, headingwritten, ref writer,ref pressurefiles);
+                    FindPressure(dir2, headingwritten, ref writer, ref pressurefiles);
                     string[] humidityfiles = null;
-                    FindHumidity(dir3, headingwritten, ref writer,ref humidityfiles);
+                    FindHumidity(dir3, headingwritten, ref writer, ref humidityfiles);
 
-                    if(!headingwritten) writer.WriteLine();//finish heading
+                    if (!headingwritten) writer.WriteLine();//finish heading
                     //heading finished
                     headingwritten = true;
 
@@ -204,9 +207,9 @@ namespace Fetch_TPH_From_DateTime
 
                     string[] allfiles = new string[temperaturelength + pressurelength + humiditylength];
 
-                    if(temperaturefiles!=null) temperaturefiles.CopyTo(allfiles, 0);
-                    if(pressurefiles!=null) pressurefiles.CopyTo(allfiles, temperaturelength);
-                    if(humidityfiles!=null) humidityfiles.CopyTo(allfiles, pressurelength + temperaturelength);
+                    if (temperaturefiles != null) temperaturefiles.CopyTo(allfiles, 0);
+                    if (pressurefiles != null) pressurefiles.CopyTo(allfiles, temperaturelength);
+                    if (humidityfiles != null) humidityfiles.CopyTo(allfiles, pressurelength + temperaturelength);
                     if (allfiles == null) return; //no files are found
 
                     int fileindex = 0;
@@ -243,7 +246,7 @@ namespace Fetch_TPH_From_DateTime
                         else
                         {
                             filetype = 2;
-                            
+
                             try
                             {
                                 reader = new StreamReader(dir3 + fname);
