@@ -30,7 +30,7 @@ namespace Fetch_TPH_From_DateTime
             theDialog.Filter = "TXT files|*.txt";
             try
             {
-                theDialog.InitialDirectory = @"I:\MSL\Private\LENGTH\";
+                theDialog.InitialDirectory = @"C:\Users\c.young\L:\";
 
 
 
@@ -48,7 +48,7 @@ namespace Fetch_TPH_From_DateTime
             }
             catch (DirectoryNotFoundException)
             {
-                MessageBox.Show("Cannot Access Directory: "+ @"I:\MSL\Private\LENGTH\");
+                MessageBox.Show("Cannot Access Directory: "+ @"L:\");
             }
             
         }
@@ -57,7 +57,7 @@ namespace Fetch_TPH_From_DateTime
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.SelectedPath = @"I:\MSL\Private\LENGTH\";
+                fbd.SelectedPath = @"L:\Temperature Monitoring Data";
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
@@ -75,22 +75,22 @@ namespace Fetch_TPH_From_DateTime
             switch (TemperatureComboBox.SelectedItem)
             {
                 case "Hilger Lab":
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Hilger Lab";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Hilger Lab";
                     break;
                 case "Laser Lab":
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Laser Lab";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Laser Lab";
                     break;
                 case "Long Room":
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Long Room";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Long Room";
                     break;
                 case "Leitz Room":
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Leitz Lab";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Leitz Room";
                     break;
                 case "Tunnel":
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Tunnel";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Tunnel";
                     break;
                 default:
-                    temperaturedir = @"I:\MSL\Private\LENGTH\Temperature Monitoring Data\Hilger Lab";
+                    temperaturedir = @"L:\Temperature Monitoring Data\Hilger Lab";
                     break;
             }
         }
@@ -100,13 +100,13 @@ namespace Fetch_TPH_From_DateTime
             switch (PressureComboBox.SelectedItem)
             {
                 case "Robertson Ground Floor":
-                    pressuredir = @"I:\MSL\Private\LENGTH\Pressure Monitoring Data\Ground_floor_at_1m_height";
+                    pressuredir = @"L:\Pressure Monitoring Data\Ground_floor_at_1m_height";
                     break;
                 case "Tunnel":
-                    pressuredir = @"I:\MSL\Private\LENGTH\Pressure Monitoring Data\Tunnel";
+                    pressuredir = @"L:\Pressure Monitoring Data\Tunnel";
                     break;
                 default:
-                    pressuredir = @"I:\MSL\Private\LENGTH\Pressure Monitoring Data\Ground_floor_at_1m_height";
+                    pressuredir = @"L:\Pressure Monitoring Data\Ground_floor_at_1m_height";
                     break;
             }
         }
@@ -116,22 +116,22 @@ namespace Fetch_TPH_From_DateTime
             switch (HumidityComboBox.SelectedItem)
             {
                 case "Hilger Lab":
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\HILGERLAB";
+                    humiditydir = @"L:\Humidity Monitoring Data\HILGERLAB";
                     break;
                 case "Laser Lab":
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\LASERLAB";
+                    humiditydir = @"L:\Humidity Monitoring Data\LASERLAB";
                     break;
                 case "Long Room":
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\LONGROOM";
+                    humiditydir = @"L:\Humidity Monitoring Data\LONGROOM";
                     break;
                 case "Leitz Room":
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\LEITZROOM";
+                    humiditydir = @"L:\Humidity Monitoring Data\LEITZROOM";
                     break;
                 case "Tunnel":
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\TUNNEL";
+                    humiditydir = @"L:\Humidity Monitoring Data\TUNNEL";
                     break;
                 default:
-                    humiditydir = @"I:\MSL\Private\LENGTH\Humidity Monitoring Data\HILGERLAB";
+                    humiditydir = @"L:\Humidity Monitoring Data\HILGERLAB";
                     break;
             }
         }
